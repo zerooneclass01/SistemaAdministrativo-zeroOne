@@ -1,0 +1,17 @@
+<Solution>
+  <Folder Name="/Api/">
+    <Project Path="SistemaAdministrativo.Api/SistemaAdministrativo.Api.csproj" />
+  </Folder>
+  <Folder Name="/Dominio/">
+    <Project Path="Dominio/Dominio.csproj" />
+  </Folder>
+  <Folder Name="/InfraIoc/">
+    <Project Path="Infra.Ioc/Infra.Ioc.csproj" />
+  </Folder>
+  <Folder Name="/Repositorios/">
+    <Project Path="Repositorio/Repositorio.csproj" />
+  </Folder>
+  <Folder Name="/Services/">
+    <Project Path="Services/Services.csproj" />
+  </Folder>
+</Solution>
