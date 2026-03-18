@@ -78,9 +78,6 @@ namespace Repositorio.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(150)");
 
-                    b.Property<Guid?>("IdTurma")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("Matricula")
                         .HasColumnType("int");
 
@@ -95,18 +92,21 @@ namespace Repositorio.Migrations
                     b.Property<Guid?>("TurmaId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("TurmaId1")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal>("ValorMensalidadeContratual")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdTurma");
-
                     b.HasIndex("Matricula")
                         .IsUnique();
 
                     b.HasIndex("TurmaId");
+
+                    b.HasIndex("TurmaId1");
 
                     b.ToTable("Alunos", (string)null);
                 });
@@ -255,7 +255,7 @@ namespace Repositorio.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(100)");
 
-                    b.Property<Guid?>("ProfessorId")
+                    b.Property<Guid>("ProfessorId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -332,12 +332,12 @@ namespace Repositorio.Migrations
                 {
                     b.HasOne("Dominio.Entidades.Turma", null)
                         .WithMany("Alunos")
-                        .HasForeignKey("IdTurma")
+                        .HasForeignKey("TurmaId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Dominio.Entidades.Turma", "Turma")
                         .WithMany()
-                        .HasForeignKey("TurmaId");
+                        .HasForeignKey("TurmaId1");
 
                     b.Navigation("Turma");
                 });
@@ -367,7 +367,8 @@ namespace Repositorio.Migrations
                     b.HasOne("Dominio.Entidades.Professor", "Professor")
                         .WithMany("Turmas")
                         .HasForeignKey("ProfessorId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Professor");
                 });

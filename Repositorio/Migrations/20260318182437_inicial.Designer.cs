@@ -12,8 +12,8 @@ using Repositorio.Data;
 namespace Repositorio.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20260222150910_Inicial")]
-    partial class Inicial
+    [Migration("20260318182437_inicial")]
+    partial class inicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,37 @@ namespace Repositorio.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Dominio.ChamadaItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AlunoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ChamadaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Observacao")
+                        .IsRequired()
+                        .HasColumnType("varchar(250)");
+
+                    b.Property<bool>("Presente")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AlunoId");
+
+                    b.HasIndex("ChamadaId");
+
+                    b.ToTable("ChamadaItems", (string)null);
+                });
 
             modelBuilder.Entity("Dominio.Entidades.Aluno", b =>
                 {
@@ -50,9 +81,6 @@ namespace Repositorio.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(150)");
 
-                    b.Property<Guid?>("IdTurma")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("Matricula")
                         .HasColumnType("int");
 
@@ -67,20 +95,82 @@ namespace Repositorio.Migrations
                     b.Property<Guid?>("TurmaId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("TurmaId1")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal>("ValorMensalidadeContratual")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdTurma");
-
                     b.HasIndex("Matricula")
                         .IsUnique();
 
                     b.HasIndex("TurmaId");
 
+                    b.HasIndex("TurmaId1");
+
                     b.ToTable("Alunos", (string)null);
+                });
+
+            modelBuilder.Entity("Dominio.Entidades.Chamada", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DataAula")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("TurmaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TurmaId", "DataAula")
+                        .IsUnique();
+
+                    b.ToTable("Chamadas", (string)null);
+                });
+
+            modelBuilder.Entity("Dominio.Entidades.Despesa", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Categoria")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DataPagamento")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataVencimento")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<bool>("Pago")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<decimal>("Valor")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Despesas", (string)null);
                 });
 
             modelBuilder.Entity("Dominio.Entidades.Mensalidade", b =>
@@ -157,6 +247,9 @@ namespace Repositorio.Migrations
                     b.Property<DateTime>("DataCadastro")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("DiasDaAula")
+                        .HasColumnType("int");
+
                     b.Property<string>("Horario")
                         .IsRequired()
                         .HasColumnType("varchar(50)");
@@ -165,7 +258,7 @@ namespace Repositorio.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(100)");
 
-                    b.Property<Guid?>("ProfessorId")
+                    b.Property<Guid>("ProfessorId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -219,16 +312,46 @@ namespace Repositorio.Migrations
                     b.ToTable("Usuarios", (string)null);
                 });
 
+            modelBuilder.Entity("Dominio.ChamadaItem", b =>
+                {
+                    b.HasOne("Dominio.Entidades.Aluno", "Aluno")
+                        .WithMany()
+                        .HasForeignKey("AlunoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Dominio.Entidades.Chamada", "Chamada")
+                        .WithMany("AlunosPresenca")
+                        .HasForeignKey("ChamadaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Aluno");
+
+                    b.Navigation("Chamada");
+                });
+
             modelBuilder.Entity("Dominio.Entidades.Aluno", b =>
                 {
                     b.HasOne("Dominio.Entidades.Turma", null)
                         .WithMany("Alunos")
-                        .HasForeignKey("IdTurma")
+                        .HasForeignKey("TurmaId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Dominio.Entidades.Turma", "Turma")
                         .WithMany()
-                        .HasForeignKey("TurmaId");
+                        .HasForeignKey("TurmaId1");
+
+                    b.Navigation("Turma");
+                });
+
+            modelBuilder.Entity("Dominio.Entidades.Chamada", b =>
+                {
+                    b.HasOne("Dominio.Entidades.Turma", "Turma")
+                        .WithMany()
+                        .HasForeignKey("TurmaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Turma");
                 });
@@ -247,7 +370,8 @@ namespace Repositorio.Migrations
                     b.HasOne("Dominio.Entidades.Professor", "Professor")
                         .WithMany("Turmas")
                         .HasForeignKey("ProfessorId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Professor");
                 });
@@ -255,6 +379,11 @@ namespace Repositorio.Migrations
             modelBuilder.Entity("Dominio.Entidades.Aluno", b =>
                 {
                     b.Navigation("Mensalidades");
+                });
+
+            modelBuilder.Entity("Dominio.Entidades.Chamada", b =>
+                {
+                    b.Navigation("AlunosPresenca");
                 });
 
             modelBuilder.Entity("Dominio.Entidades.Professor", b =>

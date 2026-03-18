@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Repositorio.Repository
 {
-    public class AlunoRepository : RepositoryBase<Aluno> ,IAlunoRepository
+    public class AlunoRepository : RepositoryBase<Aluno>, IAlunoRepository
     {
         private readonly Contexto _contexto;
 
@@ -43,10 +43,11 @@ namespace Repositorio.Repository
             int anoAtual = DateTime.Now.Year;
 
             return await _context.Alunos
-                .Include(a => a.Turma)                     
-                    .ThenInclude(t => t.Professor)           
-                .Include(a => a.Mensalidades.Where(m => m.DataVencimento.Year == anoAtual && m.AlunoId ==id)) 
-                .FirstOrDefaultAsync(a => a.Id == id);
+                    .Include(a => a.Turma)
+                    .ThenInclude(t => t.Professor)
+                    .Include(a => a.Mensalidades)
+                    .FirstOrDefaultAsync(a => a.Id == id &&
+                                  a.Mensalidades.Any(m => m.DataVencimento.Year == anoAtual));
         }
 
         public async Task<IEnumerable<Aluno>> ObterTodosComInformacoes()
@@ -64,7 +65,7 @@ namespace Repositorio.Repository
 
         public async Task RemoverObjeto(Aluno aluno)
         {
-           _context.Alunos.Remove(aluno);
+            _context.Alunos.Remove(aluno);
 
             await _context.SaveChangesAsync();
         }

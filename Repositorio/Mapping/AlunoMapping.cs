@@ -22,7 +22,7 @@ namespace Repositorio.Mapping
 
             builder.HasOne(a => a.Turma)
                 .WithMany(t => t.Alunos)
-                .HasForeignKey(a => a.IdTurma)
+                .HasForeignKey(a => a.TurmaId)
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.Restrict);
 

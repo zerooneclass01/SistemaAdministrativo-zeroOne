@@ -13,10 +13,9 @@ namespace Dominio.Entidades
         public string Nome { get; private set; }
         public string Horario { get; private set; }
 
-        // Removi o espaço entre Guid e ?
+        public Guid ProfessorId { get;private set; }
 
         [ForeignKey("ProfessorId")]
-        public Guid? ProfessorId { get; private set; }
         public virtual Professor? Professor { get; private set; }
         public bool Ativo { get; private set; }
 

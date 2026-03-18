@@ -5,12 +5,28 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Repositorio.Migrations
 {
-    /// <inheritdoc />
-    public partial class Inicial : Migration
+    public partial class inicial : Migration
     {
-        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Despesas",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Descricao = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false),
+                    Valor = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    DataVencimento = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DataPagamento = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Pago = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    Categoria = table.Column<int>(type: "int", nullable: false),
+                    DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Despesas", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Professores",
                 columns: table => new
@@ -50,8 +66,9 @@ namespace Repositorio.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Nome = table.Column<string>(type: "varchar(100)", nullable: false),
                     Horario = table.Column<string>(type: "varchar(50)", nullable: false),
-                    ProfessorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ProfessorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Ativo = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    DiasDaAula = table.Column<int>(type: "int", nullable: false),
                     DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -77,7 +94,6 @@ namespace Repositorio.Migrations
                     DataNascimento = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ValorMensalidadeContratual = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     DiaVencimento = table.Column<int>(type: "int", nullable: false),
-                    IdTurma = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     TurmaId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Ativo = table.Column<bool>(type: "bit", nullable: false),
                     DataMatricula = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -87,16 +103,31 @@ namespace Repositorio.Migrations
                 {
                     table.PrimaryKey("PK_Alunos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Alunos_Turmas_IdTurma",
-                        column: x => x.IdTurma,
-                        principalTable: "Turmas",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_Alunos_Turmas_TurmaId",
                         column: x => x.TurmaId,
                         principalTable: "Turmas",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Chamadas",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TurmaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DataAula = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Chamadas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Chamadas_Turmas_TurmaId",
+                        column: x => x.TurmaId,
+                        principalTable: "Turmas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -124,10 +155,33 @@ namespace Repositorio.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Alunos_IdTurma",
-                table: "Alunos",
-                column: "IdTurma");
+            migrationBuilder.CreateTable(
+                name: "ChamadaItems",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ChamadaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AlunoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Presente = table.Column<bool>(type: "bit", nullable: false),
+                    Observacao = table.Column<string>(type: "varchar(250)", nullable: false),
+                    DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ChamadaItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ChamadaItems_Alunos_AlunoId",
+                        column: x => x.AlunoId,
+                        principalTable: "Alunos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ChamadaItems_Chamadas_ChamadaId",
+                        column: x => x.ChamadaId,
+                        principalTable: "Chamadas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Alunos_Matricula",
@@ -139,6 +193,22 @@ namespace Repositorio.Migrations
                 name: "IX_Alunos_TurmaId",
                 table: "Alunos",
                 column: "TurmaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChamadaItems_AlunoId",
+                table: "ChamadaItems",
+                column: "AlunoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChamadaItems_ChamadaId",
+                table: "ChamadaItems",
+                column: "ChamadaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Chamadas_TurmaId_DataAula",
+                table: "Chamadas",
+                columns: new[] { "TurmaId", "DataAula" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Mensalidades_AlunoId",
@@ -157,23 +227,16 @@ namespace Repositorio.Migrations
                 unique: true);
         }
 
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Mensalidades");
-
-            migrationBuilder.DropTable(
-                name: "Usuarios");
-
-            migrationBuilder.DropTable(
-                name: "Alunos");
-
-            migrationBuilder.DropTable(
-                name: "Turmas");
-
-            migrationBuilder.DropTable(
-                name: "Professores");
+            migrationBuilder.DropTable(name: "ChamadaItems");
+            migrationBuilder.DropTable(name: "Despesas");
+            migrationBuilder.DropTable(name: "Mensalidades");
+            migrationBuilder.DropTable(name: "Usuarios");
+            migrationBuilder.DropTable(name: "Chamadas");
+            migrationBuilder.DropTable(name: "Alunos");
+            migrationBuilder.DropTable(name: "Turmas");
+            migrationBuilder.DropTable(name: "Professores");
         }
     }
 }

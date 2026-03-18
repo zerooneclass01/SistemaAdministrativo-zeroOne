@@ -31,8 +31,20 @@ namespace Repositorio.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(Contexto).Assembly);
+
+
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            // Se o EF não recebeu a configuração da API, ele usa esta aqui:
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=SistemaZeroOne;Trusted_Connection=True;TrustServerCertificate=True;");
+            }
         }
 
     }

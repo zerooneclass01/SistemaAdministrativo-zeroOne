@@ -16,7 +16,7 @@ namespace SistemaAdministrativo.Api.Controllers
             _alunoServices = alunoServices;
         }
 
-        [Authorize(Roles = "Admin,Recepcao")]
+        //[Authorize(Roles = "Admin,Recepcao")]
         [HttpGet("ObterTodos")]
         public async Task<ActionResult<IEnumerable<AlunoModel>>> ObterAlunos()
         {
@@ -25,7 +25,7 @@ namespace SistemaAdministrativo.Api.Controllers
             return Ok(resultado);
         }
 
-        [Authorize(Roles = "Admin,Recepcao")]
+        //[Authorize(Roles = "Admin,Recepcao")]
         [HttpGet("ObterAluno/{id:guid}")]
         public async Task<ActionResult<AlunoModel>> ObterPorId(Guid id)
         {
@@ -35,7 +35,7 @@ namespace SistemaAdministrativo.Api.Controllers
         }
 
 
-        [Authorize(Roles = "Admin,Recepcao")]
+        //[Authorize(Roles = "Admin,Recepcao")]
         [HttpPost]
         public async Task<IActionResult> Adicionar([FromBody] AlunoCriarModel model)
         {
@@ -57,7 +57,7 @@ namespace SistemaAdministrativo.Api.Controllers
             return Ok(salvo);
         }
 
-        [Authorize(Roles = "Admin,Recepcao")]
+        //[Authorize(Roles = "Admin,Recepcao")]
         [HttpDelete("Remover/{id:guid}")]
         public async Task<IActionResult>Remover(Guid id)
         {
