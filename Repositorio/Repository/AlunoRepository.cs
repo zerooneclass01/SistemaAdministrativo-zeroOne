@@ -41,7 +41,7 @@ namespace Repositorio.Repository
         public async Task<Aluno> ObterTodasInformaçoaDeUmAluno(Guid id)
         {
             return await _context.Alunos
-         .Include(a => a.Mensalidades) // Garante que as mensalidades venham junto
+         .Include(a => a.Mensalidades) 
          .AsNoTracking()
          .FirstOrDefaultAsync(a => a.Id == id);
         }

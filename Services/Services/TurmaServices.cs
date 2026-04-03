@@ -90,6 +90,17 @@ namespace Services.Services
             return salvo;
         }
 
+        public async Task<List<AlunoModel>> ListarAlunosDaTurma(Guid turmaId)
+        {
+           var resultado = await _UnitOfWork.AlunoTurma.ListarAlunosPorTurma(turmaId);
+
+            if (resultado == null)
+                return null;
+
+            return resultado.Select(alunos => new AlunoModel().ToChama(alunos)).ToList();
+
+        }
+
         public async Task<TurmaModel> ObterPorId(Guid id)
         {
             var obter = await _UnitOfWork.Turma.ObterPorIdCompletoAsync(id);

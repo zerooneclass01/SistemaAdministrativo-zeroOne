@@ -19,10 +19,10 @@ namespace SistemaAdministrativo.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CrearTurma(AdicionarAtualizarTurmaModel model)
         {
-            if(model is null)
+            if (model is null)
                 return BadRequest(ModelState);
 
-            var salvo =  await _turmaServices.CriarTurma(model);
+            var salvo = await _turmaServices.CriarTurma(model);
 
             if (!salvo)
                 return NotFound("Correu um erro no cadastro");
@@ -32,7 +32,7 @@ namespace SistemaAdministrativo.Api.Controllers
         }
 
         [HttpPut("{turmaId}")]
-        public async Task<IActionResult>Atualuzar(Guid turmaId , AdicionarAtualizarTurmaModel model)
+        public async Task<IActionResult> Atualuzar(Guid turmaId, AdicionarAtualizarTurmaModel model)
         {
             if (model is null)
                 return BadRequest(ModelState);
@@ -48,7 +48,7 @@ namespace SistemaAdministrativo.Api.Controllers
         [HttpPatch("{turmaId}/desativar")]
         public async Task<IActionResult> DesativaTurma(Guid turmaId)
         {
-           var salvo =  await _turmaServices.DesativaTurma(turmaId);
+            var salvo = await _turmaServices.DesativaTurma(turmaId);
 
             if (!salvo) return NotFound("Ocorreu um Erro ao Desativa a Turma!");
 
@@ -66,13 +66,13 @@ namespace SistemaAdministrativo.Api.Controllers
         }
 
         [HttpPatch("{turmaId}/alterar-professor/{profesorId}")]
-        public async Task<IActionResult> AlteraProfessor(Guid turmaId,Guid profesorId)
+        public async Task<IActionResult> AlteraProfessor(Guid turmaId, Guid profesorId)
         {
             var salvo = await _turmaServices.AlteraProfessor(turmaId, profesorId);
 
             if (!salvo) return NotFound("Ocorreu um erro ao Altera Professor da Turma");
 
-            return Ok("Altração realizada com Sucesso!"); 
+            return Ok("Altração realizada com Sucesso!");
         }
 
 
@@ -83,6 +83,15 @@ namespace SistemaAdministrativo.Api.Controllers
 
             return Ok(resultado);
         }
+
+        [HttpGet("ObterAlunosDaTurma/{id}")]
+        public async Task<IActionResult> ObterAlunosDaTurma(Guid id)
+        {
+            var resultado = await _turmaServices.ListarAlunosDaTurma(id);
+
+            return Ok(resultado);
+        }
+
 
         [HttpGet("{turmaId}")]
         public async Task<IActionResult> ObterTurmaPorId(Guid turmaId)

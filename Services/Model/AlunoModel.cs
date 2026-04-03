@@ -27,6 +27,16 @@ namespace Services.Model
 
         public AlunoModel() { }
 
+        public AlunoModel ToChama(Aluno aluno)
+        {
+            if (aluno == null) return null;
+
+            return new AlunoModel
+            {
+                Id = aluno.Id,
+                Nome = aluno.Nome,
+            };
+        }
 
         public  AlunoModel ToModel(Aluno aluno)
         {

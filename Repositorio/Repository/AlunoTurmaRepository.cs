@@ -24,11 +24,20 @@ namespace Repositorio.Repository
                 .AnyAsync(a => a.AlunoId == alunoid);
         }
 
-        public async Task<AlunoTurma> ObterTurmaDoAluno(Guid alunoid, Guid turmaId)
+        public async Task<List<Aluno>> ListarAlunosPorTurma(Guid turmaId)
+        {
+            return await _contexto.AlunoTurmas
+         .AsNoTracking()
+         .Where(at => at.TurmaId == turmaId)
+         .Select(at => at.Aluno) 
+         .ToListAsync();
+        }
+
+        public async Task<AlunoTurma> ObterTurmaDoAluno(Guid alunoid)
         {
             return await _context.AlunoTurmas
                 .AsNoTracking().
-                FirstOrDefaultAsync(a => a.TurmaId == turmaId && a.AlunoId == alunoid);
+                FirstOrDefaultAsync(a =>  a.AlunoId == alunoid);
         }
 
         public Task removerAlunoTurma(AlunoTurma alunoTurma)

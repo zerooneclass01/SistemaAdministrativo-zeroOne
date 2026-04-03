@@ -16,7 +16,7 @@ namespace Services.IServices
         Task<TurmaModel> ObterPorId(Guid id);
 
         Task<List<TurmaModel>> ObterTodas();
-
+        Task<List<AlunoModel>> ListarAlunosDaTurma(Guid turmaId);
         Task<bool> AtualizarTurma(Guid turmaId,AdicionarAtualizarTurmaModel model);
 
         Task Remover(Guid Id);

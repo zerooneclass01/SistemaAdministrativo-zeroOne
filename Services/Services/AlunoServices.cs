@@ -97,20 +97,57 @@ namespace Services.Services
 
         public async Task<AlunoModel> ObterPorId(Guid id)
         {
-            var obterAluno = await _unitOfWork.Aluno.ObterTodasInformaçoaDeUmAluno(id);
+            
+            var aluno = await _unitOfWork.Aluno.ObterTodasInformaçoaDeUmAluno(id);
 
-            if (obterAluno == null)
-                return null;
+            if (aluno == null) return null;
 
-            return new  AlunoModel().ToModel(obterAluno);
+            
+            var registroNaTurma = await _unitOfWork.AlunoTurma.ObterTurmaDoAluno(id);
+
+            string nomeTurmaEncontrado = string.Empty;
+
+            if (registroNaTurma != null)
+            {
+                var turma = await _unitOfWork.Turma.ObterPorId(registroNaTurma.TurmaId);
+                nomeTurmaEncontrado = turma?.Nome;
+            }
+
+            var model = new  AlunoModel().ToModel(aluno);
+            model.NomeTurma = nomeTurmaEncontrado;
+
+            return model;
         }
 
         public async Task<List<AlunoModel>> ObterTodos()
         {
+           
             var todosAlunos = await _unitOfWork.Aluno.ObterTodosComInformacoes();
 
-            var listaMapeada = todosAlunos
-                    .Select(aluno =>new AlunoModel().ToModel(aluno)).ToList();
+            
+            var todosVinculos = await _unitOfWork.AlunoTurma.ObterTodos();
+
+         
+            var todasTurmas = await _unitOfWork.Turma.ObterTodos();
+
+          
+            var listaMapeada = todosAlunos.Select(aluno =>
+            {
+                var model = new AlunoModel().ToModel(aluno);
+
+                
+                var vinculo = todosVinculos.FirstOrDefault(v => v.AlunoId == aluno.Id);
+
+                if (vinculo != null)
+                {
+                    var turma = todasTurmas.FirstOrDefault(t => t.Id == vinculo.TurmaId);
+                    model.NomeTurma = turma?.Nome;
+                    model.TurmaId = vinculo.TurmaId;
+                }
+
+                return model;
+            }).ToList();
+
             return listaMapeada;
         }
 
@@ -128,7 +165,7 @@ namespace Services.Services
 
         public async Task<bool> RemoverAlunoDaTurma(Guid alunoId, Guid turmaid)
         {
-            var obter = await _unitOfWork.AlunoTurma.ObterTurmaDoAluno(alunoId, turmaid);
+            var obter = await _unitOfWork.AlunoTurma.ObterTurmaDoAluno(alunoId);
 
             await _unitOfWork.AlunoTurma.removerAlunoTurma(obter);
 

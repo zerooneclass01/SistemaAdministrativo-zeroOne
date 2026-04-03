@@ -9,7 +9,10 @@ namespace Repositorio.IRepository
     {
         Task<bool> AlunoEstaEmUmaTurma(Guid alunoid);
 
-        Task<AlunoTurma> ObterTurmaDoAluno(Guid alunoid, Guid turmaId);
+        Task<AlunoTurma> ObterTurmaDoAluno(Guid alunoid);
+
+
+        Task<List<Aluno>> ListarAlunosPorTurma(Guid turmaId);
 
         Task removerAlunoTurma(AlunoTurma alunoTurma);
     }
