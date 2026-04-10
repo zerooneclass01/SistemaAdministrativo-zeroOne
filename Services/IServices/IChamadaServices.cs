@@ -11,5 +11,7 @@ namespace Services.IServices
         Task<bool> AlterarPresenca(Guid chamadaId, List<AlunoPresencaModel> alunos);
         Task<ChamadaModel> ObterPorId(Guid id);
         Task<IEnumerable<ChamadaModel>> ObterPorTurma(Guid turmaId);
+        Task<RelatorioTurmaModel> GerarRelatorioConsolidado(Guid turmaId);
+
     }
 }

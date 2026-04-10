@@ -46,6 +46,17 @@ namespace Services.Services
             return salvo;
         }
 
+        public async Task<RelatorioTurmaModel> GerarRelatorioConsolidado(Guid turmaId)
+        {
+            var chamadas = await _unitOfWork.Chamada.ObterHistoricoPorTurma(turmaId);
+
+            if (chamadas == null || !chamadas.Any()) return null;
+
+            var nomeTurma = chamadas.First().Turma.Nome;
+
+            return new RelatorioTurmaModel(nomeTurma, chamadas);
+        }
+
         public async Task<ChamadaModel> ObterPorId(Guid id)
         {
             var chamada = await _unitOfWork.Chamada.ObterPorId(id);

@@ -23,21 +23,21 @@ namespace SistemaAdministrativo.Api.Controllers
             var sucesso = await _chamadaService.Registrar(model);
 
             if (!sucesso)
-                return BadRequest("Erro ao registrar a chamada.");
+                return BadRequest(new { message = "Erro ao registrar a chamada." });
 
-            return Ok("Chamada registrada com sucesso!");
+            return Ok(new { message = "Chamada registrada com sucesso!" });
         }
 
         [HttpPatch("{id:guid}/presencas")] 
         public async Task<IActionResult> AlterarPresenca(Guid id, List<AlunoPresencaModel> alunos)
         {
             if (alunos == null || !alunos.Any())
-                return BadRequest("A lista de alunos não pode estar vazia.");
+                return BadRequest(new { message = "A lista de alunos não pode estar vazia." });
 
             var sucesso = await _chamadaService.AlterarPresenca(id, alunos);
 
             if (!sucesso)
-                return NotFound("Chamada não encontrada ou sem itens para atualizar.");
+                return NotFound(new { message = "Chamada não encontrada ou sem itens para atualizar." });
 
             return Ok("Presenças atualizadas com sucesso!");
         }
@@ -63,5 +63,20 @@ namespace SistemaAdministrativo.Api.Controllers
 
             return Ok(resultado);
         }
+
+
+        [HttpGet("relatorio/turma/{turmaId:guid}")]
+        public async Task<ActionResult<RelatorioTurmaModel>> ObterRelatorio(Guid turmaId)
+        {
+            // Aqui você usa o await para esperar o processamento do serviço
+            var relatorio = await _chamadaService.GerarRelatorioConsolidado(turmaId);
+
+            if (relatorio == null)
+                return NotFound(new { message = "Nenhum dado encontrado para esta turma." });
+
+            return Ok(relatorio);
+        }
     }
+
+
 }
