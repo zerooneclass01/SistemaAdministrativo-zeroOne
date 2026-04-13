@@ -21,14 +21,14 @@ namespace Repositorio.Repository
         {
             return await _context.Set<ChamadaItem>()
                   .Include(x => x.Aluno)
-                  .Where(x => x.AlunoId == alunoId && !x.Presente)
+                  .Where(x => x.AlunoId == alunoId && !x.Presente).AsNoTracking()
                   .ToListAsync();
         }
 
         public async Task<List<ChamadaItem>> ObterPorChamadaId(Guid chamadaId)
         {
             return await _context.chamadaItems
-            .Where(x => x.ChamadaId == chamadaId)
+            .Where(x => x.ChamadaId == chamadaId).AsNoTracking()
             .ToListAsync();
         }
 

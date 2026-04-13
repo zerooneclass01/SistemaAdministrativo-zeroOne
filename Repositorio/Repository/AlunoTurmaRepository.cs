@@ -29,7 +29,7 @@ namespace Repositorio.Repository
             return await _contexto.AlunoTurmas
          .AsNoTracking()
          .Where(at => at.TurmaId == turmaId)
-         .Select(at => at.Aluno) 
+         .Select(at => at.Aluno).AsNoTracking()
          .ToListAsync();
         }
 

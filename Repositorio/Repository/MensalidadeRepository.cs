@@ -24,14 +24,14 @@ namespace Repositorio.Repository
             var hoje = DateTime.Now;
             return await _context.Mensalidades
              .Where(m => m.DataVencimento < hoje &&
-                         m.PagamentoStatus == PagamentoStatus.Pendente)
+                         m.PagamentoStatus == PagamentoStatus.Pendente).AsNoTracking()
              .ToListAsync();
         }
 
         public async Task<List<Mensalidade>> ObterPeloIdAluno(Guid alunoId)
         {
             return await _context.Mensalidades.Where(m => m.AlunoId == alunoId )
-                .OrderByDescending(m => m.DataVencimento)
+                .OrderByDescending(m => m.DataVencimento).AsNoTracking()
                 .ToListAsync();
         }
     }

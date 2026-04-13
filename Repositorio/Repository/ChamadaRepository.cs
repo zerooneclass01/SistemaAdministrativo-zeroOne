@@ -22,6 +22,7 @@ namespace Repositorio.Repository
             return await _context.Chamadas
                  .Include(c => c.AlunosPresenca)
                      .ThenInclude(cp => cp.Aluno)
+                     .AsNoTracking()
                  .FirstOrDefaultAsync(c => c.TurmaId == turmaId && c.DataAula.Date == data.Date);
         }
 
@@ -32,7 +33,8 @@ namespace Repositorio.Repository
                 .Include(c => c.AlunosPresenca) // Traz a lista de itens da chamada
                     .ThenInclude(ci => ci.Aluno) // Dentro de cada item, traz os dados do Aluno (Nome, etc)
                 .Where(c => c.TurmaId == turmaId)
-                .OrderByDescending(c => c.DataAula)
+                .OrderByDescending(c => c.DataAula).
+                AsNoTracking()
                 .ToListAsync();
         }
     }

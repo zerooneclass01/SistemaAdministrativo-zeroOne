@@ -8,7 +8,7 @@ namespace Repositorio.IRepository
     public interface IUsuarioRepository
     {
         // Métodos de Busca (Leitura)
-        Task<Usuario?> ObterPorId(int id);
+        Task<Usuario?> ObterPorId(Guid id);
         Task<Usuario?> ObterPorUsername(string username);
         Task<Usuario?> ObterPorToken(string token);
 

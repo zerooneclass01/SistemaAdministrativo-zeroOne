@@ -14,6 +14,7 @@ namespace Repositorio.IRepository.IRepositoryBase
         IChamadaItemRepository ChamadaItem { get; }
         IAlunoTurmaRepository AlunoTurma { get; }
         IDespesaRepository Despesa { get; }
+        IRankingRepository Ranking { get; }
 
         Task BeginTransactionAsync();
         Task CommitTransactionAsync();

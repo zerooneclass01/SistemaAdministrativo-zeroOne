@@ -34,19 +34,19 @@ namespace Repositorio.Repository
             await _contexto.SaveChangesAsync();
         }
 
-        public async Task<Usuario?> ObterPorId(int id)
+        public async Task<Usuario?> ObterPorId(Guid id)
         {
-            return await _contexto.Usuarios.FindAsync(id);
+            return await _contexto.Usuarios.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Usuario?> ObterPorToken(string token)
         {
-            return await _contexto.Usuarios.FirstOrDefaultAsync(u => u.PasswordResetToken== token && u.Ativo);
+            return await _contexto.Usuarios.AsNoTracking().FirstOrDefaultAsync(u => u.PasswordResetToken== token && u.Ativo);
         }
 
         public async Task<Usuario?> ObterPorUsername(string username)
         {
-            return await _contexto.Usuarios.FirstOrDefaultAsync(u => u.Username == username);
+            return await _contexto.Usuarios.AsNoTracking().FirstOrDefaultAsync(u => u.Username == username);
         }
 
         public async Task<bool> SalvarAlteracoes()

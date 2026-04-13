@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Repositorio.Data;
+using System.Collections.Frozen;
 
 namespace Repositorio.Repository
 {
@@ -31,12 +32,14 @@ namespace Repositorio.Repository
 
         public async Task<TEntity> ObterPorId(Guid id)
         {
-            return await _dbSet.FindAsync(id);
+            return await _dbSet
+                .AsNoTracking()
+                    .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<List<TEntity>> ObterTodos()
         {
-            return await _dbSet.ToListAsync();
+            return await _dbSet.AsNoTracking().ToListAsync();
         }
 
         public void Atualizar(TEntity obj)

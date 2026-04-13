@@ -30,6 +30,8 @@ namespace Repositorio.Repository
 
         public IAlunoTurmaRepository AlunoTurma { get; private set; }
 
+        public IRankingRepository Ranking { get; private set; }
+
         public UnitOfWork(Contexto contexto)
         {
             _contexto = contexto;
@@ -41,6 +43,8 @@ namespace Repositorio.Repository
             ChamadaItem = new ChamadaItemRepository(_contexto);
             Despesa = new DespesaRepository(_contexto);
             AlunoTurma = new AlunoTurmaRepository(_contexto);
+            Ranking = new RankingRepository(_contexto);
+
         }
 
 

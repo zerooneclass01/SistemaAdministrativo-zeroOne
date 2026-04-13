@@ -28,6 +28,9 @@ namespace Repositorio.Data
 
         public DbSet<Despesa> Despesas { get; set; }
 
+        public   DbSet<Ranking> Rankings { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
