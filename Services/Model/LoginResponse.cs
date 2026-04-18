@@ -4,10 +4,10 @@ using System.Text;
 
 namespace Services.Model
 {
-    public record ResetSenhaRequest
+     public class LoginResponse
     {
         public string Token { get; set; }
-
-        public string senha { get; set; }
+        public int Role { get; set; }
+        public string Username { get; set; }
     }
 }

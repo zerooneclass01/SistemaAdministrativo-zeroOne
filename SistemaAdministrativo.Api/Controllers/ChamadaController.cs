@@ -29,8 +29,8 @@ namespace SistemaAdministrativo.Api.Controllers
             return Ok(new { message = "Chamada registrada com sucesso!" });
         }
 
-        [HttpPatch("{id:guid}/presencas")] 
-        public async Task<IActionResult> AlterarPresenca(Guid id, List<AlunoPresencaModel> alunos)
+        [HttpPut("{id:guid}/presencas")] 
+        public async Task<IActionResult> AlterarPresenca(Guid id,[FromBody] List<AlunoPresencaModel> alunos)
         {
             if (alunos == null || !alunos.Any())
                 return BadRequest(new { message = "A lista de alunos não pode estar vazia." });

@@ -1,5 +1,7 @@
 using Infra.Ioc;
 using Scalar.AspNetCore;
+using Services.IServices;
+using Services.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,7 @@ builder.Services.BancoDados(builder.Configuration);
 builder.Services.InjeicaoDeIdependenciaRepository(builder.Configuration);
 builder.Services.InjeicaoDeIdependenciaServices(builder.Configuration);
 builder.Services.AddAuth(builder.Configuration);
+builder.Services.AddHttpClient<IWhatsAppServices, WhatsAppServices>();
 
 builder.Services.AddCors(options => {
     options.AddPolicy("AllowAngular", policy =>

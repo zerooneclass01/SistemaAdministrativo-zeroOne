@@ -9,6 +9,8 @@ namespace Repositorio.IRepository
     {
         // Métodos de Busca (Leitura)
         Task<Usuario?> ObterPorId(Guid id);
+        Task<List<Usuario>> ObterTodos();
+
         Task<Usuario?> ObterPorUsername(string username);
         Task<Usuario?> ObterPorToken(string token);
 

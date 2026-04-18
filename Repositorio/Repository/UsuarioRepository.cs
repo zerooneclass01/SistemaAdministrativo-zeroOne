@@ -49,6 +49,11 @@ namespace Repositorio.Repository
             return await _contexto.Usuarios.AsNoTracking().FirstOrDefaultAsync(u => u.Username == username);
         }
 
+        public async Task<List<Usuario>> ObterTodos()
+        {
+             return await _contexto.Usuarios.ToListAsync();
+        }
+
         public async Task<bool> SalvarAlteracoes()
         {
             return await _contexto.SaveChangesAsync() > 0;

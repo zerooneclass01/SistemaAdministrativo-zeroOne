@@ -27,6 +27,11 @@ namespace Dominio.Entidades
             InserirDados(userName, senhaHash, role);
         }
 
+        public void AltearSenha(string senha)
+        {
+            SenhaHash = senha;
+        }
+
         public void InserirDados(string userName, string senhaHash, int role)
         {
             if (string.IsNullOrEmpty(userName))
