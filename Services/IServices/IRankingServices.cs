@@ -10,13 +10,13 @@ namespace Services.IServices
         Task<bool> CrearRanking(Guid TurmaId);
         Task<bool> AtulizarRaking(Guid id, RakingAdicionarAtualizarModel model);
 
-        Task<RakingAdicionarAtualizarModel> ObterPorId(Guid id);
+        Task<RankingModel> ObterPorId(Guid id);
         Task<List<RakingAdicionarAtualizarModel>> ObterTodos();
 
-        Task<RakingAdicionarAtualizarModel> ObterPorAluno(Guid alunoId);
+        Task<RankingModel> ObterPorAluno(Guid alunoId);
 
-        Task<List<RakingAdicionarAtualizarModel>> ObterRankingDaTurma( Guid turmaid);
+        Task<List<RankingModel>> ObterRankingDaTurma( Guid turmaid);
 
-        Task RemoverRanking(Guid id);
+        Task RemoverRanking(Guid turmaId);
     }
 }

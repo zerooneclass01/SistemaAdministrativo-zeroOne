@@ -64,40 +64,43 @@ namespace Services.Services
             return salvo;
         }
 
-        public async Task<RakingAdicionarAtualizarModel> ObterPorAluno(Guid alunoId)
+        public async Task<RankingModel> ObterPorAluno(Guid alunoId)
         {
             var resultado = await _unitOfWork.Ranking.ObterPorAluno(alunoId);
 
             if (resultado == null) return null;
 
-            return new RakingAdicionarAtualizarModel
+            return new RankingModel
             {
+                Id = resultado.Id,
                 Alunoid = resultado.Alunoid,
                 Turmaid = resultado.Turmaid,
                 Pontos = resultado.Pontos
             };
         }
 
-        public async Task<RakingAdicionarAtualizarModel> ObterPorId(Guid id)
+        public async Task<RankingModel> ObterPorId(Guid id)
         {
             var resultado = await _unitOfWork.Ranking.ObterPorId(id);
 
             if (resultado == null) return null;
 
-            return new RakingAdicionarAtualizarModel
+            return new RankingModel
             {
+                Id = resultado.Id,
                 Alunoid = resultado.Alunoid,
                 Turmaid = resultado.Turmaid,
                 Pontos = resultado.Pontos
             };
         }
 
-        public async Task<List<RakingAdicionarAtualizarModel>> ObterRankingDaTurma(Guid turmaid)
+        public async Task<List<RankingModel>> ObterRankingDaTurma(Guid turmaid)
         {
             var listaRanking = await _unitOfWork.Ranking.ObterPorTurma(turmaid);
 
-            return listaRanking.Select(r => new RakingAdicionarAtualizarModel
+            return listaRanking.Select(r => new RankingModel
             {
+                Id = r.Id,  
                 Alunoid = r.Alunoid,
                 Turmaid = r.Turmaid,
                 Pontos = r.Pontos
@@ -116,13 +119,19 @@ namespace Services.Services
             }).ToList();
         }
 
-        public async Task RemoverRanking(Guid id)
+        public async Task RemoverRanking(Guid turmaId)
         {
-            var obter = await _unitOfWork.Ranking.ObterPorId(id);
+            var rankingsDaTurma = await _unitOfWork.Ranking.ObterPorTurma(turmaId);
 
-            if (obter == null) return;
+            if (rankingsDaTurma == null || !rankingsDaTurma.Any()) return;
 
-            _unitOfWork.Ranking.Remover(id);
+            foreach (var item in rankingsDaTurma)
+            {
+                _unitOfWork.Ranking.Remover(item.Id);
+            }
+
+            await _unitOfWork.CommitTransactionAsync(); ;
+            
         }
     }
 }

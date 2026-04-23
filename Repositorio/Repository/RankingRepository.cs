@@ -23,9 +23,12 @@ namespace Repositorio.Repository
            return  await _context.Rankings.AsNoTracking().FirstOrDefaultAsync(c => c.Alunoid == alunoId);
         }
 
-        public Task<IEnumerable<Ranking>> ObterPorTurma(Guid TurmaId)
+        public async Task<IEnumerable<Ranking>> ObterPorTurma(Guid TurmaId)
         {
-            throw new NotImplementedException();
+            return await _context.Rankings
+          .AsNoTracking()
+          .Where(c => c.Turmaid == TurmaId)
+          .ToListAsync();
         }
     }
 }
