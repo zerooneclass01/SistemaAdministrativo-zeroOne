@@ -34,6 +34,22 @@ namespace Services.Services
             return salvo;
         }
 
+        public async Task<bool> AtivarouDesativaAluno(Guid id, bool status)
+        {
+           var aluno = await _unitOfWork.Aluno.ObterPorId(id);
+
+            aluno.Ativar(status);
+
+            _unitOfWork.Aluno.Atualizar(aluno);
+
+            var salvo = await _unitOfWork.CompleteAsync() > 0;
+
+            await _unitOfWork.CommitTransactionAsync();
+
+            return salvo;
+            
+        }
+
         public async Task<bool> AtulizarAluno(Guid id, AlunoAtualizarModel model)
         {
             var AtualizarAluno = await _unitOfWork.Aluno.ObterPorId(id);

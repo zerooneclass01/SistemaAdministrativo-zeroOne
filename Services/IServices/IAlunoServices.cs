@@ -10,6 +10,7 @@ namespace Services.IServices
         Task<bool> VinncularUmaTurma(Guid alunoid,Guid turmaid);
         Task<bool> CrearAluno(AlunoCriarModel model);
         Task<bool> AtulizarAluno(Guid id,AlunoAtualizarModel model);
+        Task<bool> AtivarouDesativaAluno(Guid id, bool status);
 
         Task<AlunoModel> ObterPorId(Guid id);
         Task<List<AlunoModel>> ObterTodos();

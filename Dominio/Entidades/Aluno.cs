@@ -45,6 +45,7 @@ namespace Dominio.Entidades
             DataNascimento = datanascimento;
         }
 
+        public bool Ativar (bool Ativar) => Ativo = Ativar;
 
         public void valorContratualAdicionar(decimal valor, int vencimento)
         {

@@ -16,7 +16,7 @@ namespace SistemaAdministrativo.Api.Controllers
             _alunoServices = alunoServices;
         }
 
-        //[Authorize(Roles = "Admin,Recepcao")]
+       
         [HttpGet("ObterTodos")]
         public async Task<ActionResult<IEnumerable<AlunoModel>>> ObterAlunos()
         {
@@ -25,7 +25,7 @@ namespace SistemaAdministrativo.Api.Controllers
             return Ok(resultado);
         }
 
-        //[Authorize(Roles = "Admin,Recepcao")]
+        
         [HttpGet("ObterAluno/{id:guid}")]
         public async Task<ActionResult<AlunoModel>> ObterPorId(Guid id)
         {
@@ -35,7 +35,7 @@ namespace SistemaAdministrativo.Api.Controllers
         }
 
 
-        //[Authorize(Roles = "Admin,Recepcao")]
+       
         [HttpPost]
         public async Task<IActionResult> Adicionar([FromBody] AlunoCriarModel model)
         {
@@ -46,7 +46,6 @@ namespace SistemaAdministrativo.Api.Controllers
             return Ok(salvo);
         }
 
-        //[Authorize(Roles = "Admin,Recepcao")]
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> Autalizar(Guid id,[FromBody] AlunoAtualizarModel model)
         {
@@ -57,7 +56,7 @@ namespace SistemaAdministrativo.Api.Controllers
             return Ok(salvo);
         }
 
-        //[Authorize(Roles = "Admin,Recepcao")]
+     
         [HttpDelete("Remover/{id:guid}")]
         public async Task<IActionResult>Remover(Guid id)
         {
@@ -90,5 +89,16 @@ namespace SistemaAdministrativo.Api.Controllers
             return Ok(new { message= "Vinculado Com Sucesso!" });
         }
 
+        [HttpPatch("Ativa/{Alunoid:guid}")]
+        public async Task<IActionResult> AtivarAluno(Guid Alunoid, [FromBody] bool status)
+        {
+            var salvo = await _alunoServices.AtivarouDesativaAluno(Alunoid,status);
+
+            if(!salvo)
+                return BadRequest(new { message = "Ocorreu um erro na execução" });
+
+            return Ok(new { message = "Status Alterado Com Sucesso!" });
+
+        }
     }
 }
