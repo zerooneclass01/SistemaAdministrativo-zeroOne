@@ -24,6 +24,7 @@ namespace Services.Services
             if (mensalidade == null) return false;
 
             mensalidade.MudarStatus(0);
+            mensalidade.MudarValor(mensalidade.ValorOriginal);
 
             _unitOfWork.Mensalidade.Atualizar(mensalidade);
             var salvo = await _unitOfWork.CompleteAsync() > 0;
