@@ -21,7 +21,7 @@ builder.Services.AddHttpClient<IWhatsAppServices, WhatsAppServices>();
 
 builder.Services.AddCors(options => {
     options.AddPolicy("AllowAngular", policy =>
-        policy.WithOrigins("http://localhost:4200")
+        policy.AllowAnyOrigin()
               .AllowAnyMethod()
               .AllowAnyHeader());
 });
@@ -30,8 +30,7 @@ var app = builder.Build();
 
 app.UseCors("AllowAngular");
 
-if (app.Environment.IsDevelopment())
-{
+
     app.MapOpenApi();
 
     app.MapScalarApiReference(options =>
@@ -39,7 +38,7 @@ if (app.Environment.IsDevelopment())
         options.WithTitle("Zero One API")
                .WithTheme(ScalarTheme.Moon); 
     });
-}
+
 
 app.UseHttpsRedirection();
 

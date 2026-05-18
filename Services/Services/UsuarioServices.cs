@@ -96,7 +96,7 @@ namespace Services.Services
         {
             var user = await _repository.ObterPorUsername(request.username);
 
-            var hash = BCrypt.Net.BCrypt.HashPassword(request.senha.ToString());
+            var hash = BCrypt.Net.BCrypt.HashPassword(request.senha);
 
             user.AltearSenha(hash);
 

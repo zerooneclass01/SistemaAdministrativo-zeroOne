@@ -62,6 +62,8 @@ namespace Services.Services
 
             obterMensalidade.MudarStatus(novoStatus);
 
+            obterMensalidade.MudarValor(obterMensalidade.ValorOriginal);
+
              _unitOfWork.Mensalidade.Atualizar(obterMensalidade);
 
             await _unitOfWork.CompleteAsync();

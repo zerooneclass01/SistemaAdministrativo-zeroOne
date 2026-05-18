@@ -59,6 +59,11 @@ namespace Dominio.Entidades
             PagamentoStatus = (PagamentoStatus)status;
         }
 
+        public void MudarValor(decimal valorpago)
+        {
+            ValorPago = valorpago;
+        }
+
         public void AlteraDataVencimento(DateTime data)
         {
 

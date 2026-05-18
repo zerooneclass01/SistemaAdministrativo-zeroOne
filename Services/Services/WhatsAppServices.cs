@@ -34,6 +34,7 @@ namespace Services.Services
                 Port = porta,
                 Credentials = new NetworkCredential(emailRemetente,senhaApp),
                 EnableSsl = true,
+                UseDefaultCredentials = false,
             };
 
             var mailMessage = new MailMessage
