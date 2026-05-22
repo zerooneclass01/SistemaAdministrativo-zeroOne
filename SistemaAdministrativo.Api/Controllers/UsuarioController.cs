@@ -18,7 +18,7 @@ namespace SistemaAdministrativo.Api.Controllers
             _usuarioService = usuarioService;
         }
 
-        [Authorize(Roles = "Admin,RH")]
+       
         [HttpPost("Criar-Usuario")]
         public async Task<IActionResult> CriarUsuario(CriarUsuarioRequest usuario)
         {
