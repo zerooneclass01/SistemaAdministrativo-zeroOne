@@ -17,18 +17,20 @@ namespace Repositorio.Data
         }
 
         public DbSet<Usuario> Usuarios { get; set; }
-        public DbSet<Mensalidade> Mensalidades {  get; set; }
+        public DbSet<Mensalidade> Mensalidades { get; set; }
         public DbSet<AlunoTurma> AlunoTurmas { get; set; }
-        public DbSet<Turma>Turmas { get; set; }
+        public DbSet<Turma> Turmas { get; set; }
 
         public DbSet<Aluno> Alunos { get; set; }
 
-        public DbSet<Chamada> Chamadas { get; set; }    
-        public DbSet<ChamadaItem>chamadaItems { get; set; }
+        public DbSet<Chamada> Chamadas { get; set; }
+        public DbSet<ChamadaItem> chamadaItems { get; set; }
 
         public DbSet<Despesa> Despesas { get; set; }
 
-        public   DbSet<Ranking> Rankings { get; set; }
+        public DbSet<Ranking> Rankings { get; set; }
+
+        public DbSet<HistoricoDoAluno> HistoricoDoAlunos { get; set; }
 
 
 

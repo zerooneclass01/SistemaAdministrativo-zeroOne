@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Repositorio.Repository
 {
-    public class ChamadaRepository : RepositoryBase<Chamada>, IChamadaRepositoy
+    public class ChamadaRepository : RepositoryBase<Chamada>, IChamadaRepository
     {
         private readonly Contexto _contexto;
 

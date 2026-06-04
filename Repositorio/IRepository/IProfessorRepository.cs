@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Repositorio.IRepository
 {
-    public interface IProfessoRepository : IRepositoryBase<Professor>
+    public interface IProfessorRepository : IRepositoryBase<Professor>
     { 
     }
 }

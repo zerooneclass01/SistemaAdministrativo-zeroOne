@@ -17,9 +17,9 @@ namespace Repositorio.Repository
         private IDbContextTransaction _transaction;
 
         public IAlunoRepository Aluno { get; private set; }
-        public IProfessoRepository Professo { get; private set; }
+        public IProfessorRepository Professo { get; private set; }
 
-        public IChamadaRepositoy Chamada { get; private set; }
+        public IChamadaRepository Chamada { get; private set; }
 
         public IChamadaItemRepository ChamadaItem { get; private set; }
 
@@ -32,9 +32,11 @@ namespace Repositorio.Repository
 
         public IRankingRepository Ranking { get; private set; }
 
+        public IHistoricoDoAlunoRepository historicoDoAluno { get; private set; }
+
         public UnitOfWork(Contexto contexto)
         {
-            _contexto = contexto;
+            _contexto = contexto ?? throw new ArgumentNullException(nameof(contexto));
             Aluno = new AlunoRepository(_contexto);
             Professo = new ProfessorRepository(_contexto);
             Turma = new TurmaRepository(_contexto);
@@ -44,6 +46,7 @@ namespace Repositorio.Repository
             Despesa = new DespesaRepository(_contexto);
             AlunoTurma = new AlunoTurmaRepository(_contexto);
             Ranking = new RankingRepository(_contexto);
+            historicoDoAluno = new HistoricoDoAlunoRepository(_contexto);
 
         }
 

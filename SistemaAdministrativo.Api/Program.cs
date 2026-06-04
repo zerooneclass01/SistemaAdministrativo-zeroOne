@@ -31,13 +31,13 @@ var app = builder.Build();
 app.UseCors("AllowAngular");
 
 
-    app.MapOpenApi();
+app.MapOpenApi();
 
-    app.MapScalarApiReference(options =>
-    {
-        options.WithTitle("Zero One API")
-               .WithTheme(ScalarTheme.Moon); 
-    });
+app.MapScalarApiReference(options =>
+{
+    options.WithTitle("Zero One API")
+           .WithTheme(ScalarTheme.Moon);
+});
 
 
 app.UseHttpsRedirection();

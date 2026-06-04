@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Repositorio.Repository
 {
-    public class ProfessorRepository : RepositoryBase<Professor> ,IProfessoRepository
+    public class ProfessorRepository : RepositoryBase<Professor> ,IProfessorRepository
     {
         private readonly Contexto _contexto;
 
