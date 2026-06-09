@@ -26,7 +26,7 @@ namespace SistemaAdministrativo.Api.Controllers
             return Ok(new { mensagem = "Histórico adicionado com sucesso!", sucesso = true });
         }
 
-        [HttpPut("{id:guid}")]
+        [HttpPut("{idHistorico:guid}")]
         public async Task<IActionResult> AtualizarHistorico([FromBody] HistoricoAtualizarModel model, Guid idHistorico)
         {
             var salvo = await _services.AtualizarHistorico(model, idHistorico);
