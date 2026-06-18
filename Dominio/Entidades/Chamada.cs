@@ -17,12 +17,6 @@ namespace Dominio.Entidades
 
         public Chamada(Guid turmaId, DateTime dataAula)
         {
-            if (dataAula.Date != DateTime.Today)
-            {
-                throw new Exception("A data da aula deve ser o dia de hoje.");
-            }
-           
-
             TurmaId = turmaId;
             DataAula = dataAula;
         }
